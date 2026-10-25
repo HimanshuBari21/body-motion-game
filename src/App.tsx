@@ -1,4 +1,4 @@
-import FlappyJet from './FlappyJet';
+import { FlappyJet } from './flappy-jet';
 
 function App() {
   return <FlappyJet />;
