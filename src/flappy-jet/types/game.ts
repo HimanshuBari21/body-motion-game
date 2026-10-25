@@ -3,6 +3,7 @@
 export interface Pipe {
   x: number;
   topHeight: number;
+  gap?: number;
   scored: boolean;
 }
 

@@ -1,0 +1,441 @@
+/* ── Motion Camera HUD Panel Styles ────────────────────────── */
+
+.motion-hud-panel {
+  width: 320px;
+  background: rgba(8, 16, 32, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 16px;
+  border: 1px solid rgba(80, 180, 255, 0.2);
+  padding: 16px;
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.5),
+    0 0 20px rgba(56, 189, 248, 0.1),
+    inset 0 0 1px rgba(255, 255, 255, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: all 0.3s ease;
+  font-family: 'Orbitron', 'Segoe UI', monospace;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.motion-hud-panel.thrusting {
+  border-color: rgba(74, 222, 128, 0.5);
+  box-shadow:
+    0 10px 35px rgba(0, 0, 0, 0.5),
+    0 0 30px rgba(74, 222, 128, 0.25),
+    inset 0 0 15px rgba(74, 222, 128, 0.1);
+}
+
+/* Header */
+.motion-hud-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.motion-hud-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.status-dot.online {
+  background: #4ade80;
+  box-shadow: 0 0 8px #4ade80;
+  animation: pulseGreen 1.5s infinite;
+}
+
+.status-dot.loading {
+  background: #f59e0b;
+  box-shadow: 0 0 8px #f59e0b;
+  animation: pulseAmber 1s infinite;
+}
+
+.status-dot.offline {
+  background: #64748b;
+}
+
+@keyframes pulseGreen {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.85); }
+}
+
+@keyframes pulseAmber {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.title-text {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: rgba(220, 240, 255, 0.9);
+}
+
+/* Camera Toggle Button */
+.camera-toggle-btn {
+  background: rgba(20, 40, 70, 0.6);
+  border: 1px solid rgba(100, 200, 255, 0.3);
+  color: #a5f3fc;
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.camera-toggle-btn:hover:not(:disabled) {
+  background: rgba(30, 60, 110, 0.9);
+  border-color: #38bdf8;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
+}
+
+.camera-toggle-btn.btn-active {
+  background: rgba(34, 197, 94, 0.15);
+  border-color: rgba(74, 222, 128, 0.6);
+  color: #86efac;
+}
+
+.camera-toggle-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Video & Canvas Viewport */
+.motion-hud-viewport {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background: #030712;
+  border-radius: 12px;
+  border: 1px solid rgba(80, 180, 255, 0.15);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.motion-hud-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scaleX(-1); /* Mirror camera */
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.motion-hud-video.hidden {
+  display: none;
+}
+
+.motion-hud-canvas {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.motion-hud-canvas.hidden {
+  display: none;
+}
+
+/* Standby & Error Overlay */
+.camera-standby-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(14, 28, 56, 0.9) 0%, rgba(3, 7, 18, 0.95) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+  padding: 16px;
+  text-align: center;
+}
+
+.standby-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.motion-hand-icon {
+  font-size: 32px;
+  filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.5));
+  animation: floatHand 2s ease-in-out infinite;
+}
+
+@keyframes floatHand {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.standby-title {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: #f0f9ff;
+  margin: 0;
+}
+
+.standby-sub {
+  font-size: 11px;
+  color: rgba(186, 230, 253, 0.7);
+  letter-spacing: 0.8px;
+  margin: 0;
+}
+
+.activate-motion-btn,
+.retry-btn {
+  margin-top: 8px;
+  background: linear-gradient(135deg, #0284c7, #2563eb);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4);
+  transition: all 0.2s ease;
+}
+
+.activate-motion-btn:hover,
+.retry-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(2, 132, 199, 0.6);
+}
+
+.cyber-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid rgba(56, 189, 248, 0.2);
+  border-top-color: #38bdf8;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.error-icon {
+  font-size: 28px;
+}
+
+.error-text {
+  color: #f87171;
+}
+
+.error-desc {
+  color: rgba(254, 202, 202, 0.8);
+  font-size: 10px;
+}
+
+/* Viewport brackets & status */
+.viewport-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.corner-bracket {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-color: rgba(100, 200, 255, 0.6);
+}
+
+.corner-bracket.top-left {
+  top: 8px;
+  left: 8px;
+  border-top: 2px solid;
+  border-left: 2px solid;
+}
+
+.corner-bracket.top-right {
+  top: 8px;
+  right: 8px;
+  border-top: 2px solid;
+  border-right: 2px solid;
+}
+
+.corner-bracket.bottom-left {
+  bottom: 8px;
+  left: 8px;
+  border-bottom: 2px solid;
+  border-left: 2px solid;
+}
+
+.corner-bracket.bottom-right {
+  bottom: 8px;
+  right: 8px;
+  border-bottom: 2px solid;
+  border-right: 2px solid;
+}
+
+.flight-status-badge {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(6, 12, 24, 0.75);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(100, 200, 255, 0.3);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: #e0f2fe;
+}
+
+/* Telemetry Section */
+.motion-hud-telemetry {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.hand-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(56, 189, 248, 0.15);
+  border-radius: 8px;
+  padding: 8px 10px;
+  transition: all 0.25s ease;
+}
+
+.hand-badge.raised {
+  background: rgba(34, 197, 94, 0.12);
+  border-color: rgba(74, 222, 128, 0.6);
+  box-shadow: 0 0 12px rgba(74, 222, 128, 0.2);
+}
+
+.hand-badge-icon {
+  font-size: 16px;
+}
+
+.hand-badge-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.hand-name {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: rgba(148, 163, 184, 0.9);
+}
+
+.hand-state {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #94a3b8;
+}
+
+.hand-badge.raised .hand-state {
+  color: #4ade80;
+}
+
+.signal-light {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #475569;
+}
+
+.signal-light.active {
+  background: #4ade80;
+  box-shadow: 0 0 6px #4ade80;
+}
+
+/* Thrust Bar */
+.thrust-power-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.thrust-power-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.thrust-power-label {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  color: rgba(148, 163, 184, 0.85);
+}
+
+.thrust-power-pct {
+  font-size: 11px;
+  font-weight: 800;
+  color: #7dd3fc;
+}
+
+.thrust-power-track {
+  width: 100%;
+  height: 6px;
+  background: rgba(15, 23, 42, 0.8);
+  border-radius: 3px;
+  overflow: hidden;
+  border: 1px solid rgba(56, 189, 248, 0.15);
+}
+
+.thrust-power-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #38bdf8, #818cf8);
+  border-radius: 3px;
+  transition: width 0.15s ease-out;
+}
+
+.thrust-power-fill.thrust-active {
+  background: linear-gradient(90deg, #4ade80, #22c55e);
+  box-shadow: 0 0 8px rgba(74, 222, 128, 0.8);
+}
+
+/* Footer Tip */
+.motion-hud-footer {
+  text-align: center;
+  background: rgba(10, 20, 35, 0.6);
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px dashed rgba(80, 180, 255, 0.15);
+}
+
+.hud-guide-text {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: rgba(186, 230, 253, 0.8);
+}

@@ -558,13 +558,17 @@ export function drawMenuOverlay(ctx: CanvasRenderingContext2D, bestScore: number
 
   // Start instruction (pulsing)
   const pulse = Math.sin(Date.now() / 500) * 0.3 + 0.7;
-  ctx.fillStyle = `rgba(255, 255, 255, ${pulse})`;
-  ctx.font = '20px "Orbitron", "Segoe UI", sans-serif';
-  ctx.fillText('TAP OR PRESS SPACE', cx, cy + 120);
+  ctx.fillStyle = `rgba(100, 255, 180, ${pulse})`;
+  ctx.font = '17px "Orbitron", "Segoe UI", sans-serif';
+  ctx.fillText('RAISE HAND TO FLY 🚀', cx, cy + 115);
+
+  ctx.fillStyle = 'rgba(150, 220, 255, 0.75)';
+  ctx.font = '12px "Orbitron", "Segoe UI", sans-serif';
+  ctx.fillText('HOLD UP TO CLIMB • LOWER TO GLIDE', cx, cy + 140);
 
   ctx.fillStyle = 'rgba(150, 200, 255, 0.5)';
-  ctx.font = '14px "Orbitron", "Segoe UI", sans-serif';
-  ctx.fillText('TO ENGAGE THRUSTERS', cx, cy + 148);
+  ctx.font = '11px "Orbitron", "Segoe UI", sans-serif';
+  ctx.fillText('OR TAP / PRESS SPACE TO FLAP', cx, cy + 162);
 }
 
 /**
@@ -624,7 +628,7 @@ export function drawGameOverOverlay(
 
   // Restart instruction (pulsing)
   const pulse = Math.sin(Date.now() / 500) * 0.3 + 0.7;
-  ctx.fillStyle = `rgba(150, 220, 255, ${pulse})`;
-  ctx.font = '15px "Orbitron", "Segoe UI", sans-serif';
-  ctx.fillText('TAP TO RETURN TO BASE', cx, panelY + 195);
+  ctx.fillStyle = `rgba(100, 255, 180, ${pulse})`;
+  ctx.font = '14px "Orbitron", "Segoe UI", sans-serif';
+  ctx.fillText('RAISE HANDS OR TAP TO RETRY', cx, panelY + 195);
 }

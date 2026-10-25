@@ -37,6 +37,9 @@ export function checkPipeCollision(
   jetX: number,
   jetY: number,
   pipes: readonly Pipe[],
+  defaultGap: number = PIPE_GAP,
+  insetX: number = PIPE_COLLISION_INSET_X,
+  insetY: number = PIPE_COLLISION_INSET_Y,
 ): CollisionResult {
   const jetRight = jetX + JET_WIDTH;
   const jetBottom = jetY + JET_HEIGHT;
@@ -45,13 +48,14 @@ export function checkPipeCollision(
 
   for (const pipe of pipes) {
     const pipeRight = pipe.x + PIPE_WIDTH;
+    const gap = pipe.gap ?? defaultGap;
 
     // Horizontal overlap (with forgiving inset)
-    if (jetRight > pipe.x + PIPE_COLLISION_INSET_X && jetX < pipeRight - PIPE_COLLISION_INSET_X) {
+    if (jetRight > pipe.x + insetX && jetX < pipeRight - insetX) {
       // Vertical check: jet must be inside the gap
       if (
-        jetY < pipe.topHeight - PIPE_COLLISION_INSET_Y ||
-        jetBottom > pipe.topHeight + PIPE_GAP + PIPE_COLLISION_INSET_Y
+        jetY < pipe.topHeight - insetY ||
+        jetBottom > pipe.topHeight + gap + insetY
       ) {
         return { collided: true, jetCenterX: centerX, jetCenterY: centerY };
       }
