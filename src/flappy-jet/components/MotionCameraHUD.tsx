@@ -22,7 +22,6 @@ export const MotionCameraHUD: React.FC<MotionCameraHUDProps> = ({
     isLeftHandRaised,
     isRightHandRaised,
     areBothHandsRaised,
-    isAnyHandRaised,
     thrustPower,
     handControlMode,
     setHandControlMode,
