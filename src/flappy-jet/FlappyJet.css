@@ -2,20 +2,26 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap');
 
-.flappy-jet-container {
+/* Main Layout: Game Screen on Left, Camera HUD on Right */
+.flappy-jet-layout {
   display: flex;
-  flex-direction: column;
+  flex-direction: row; /* Camera strictly on the right side */
   align-items: center;
   justify-content: center;
+  gap: 28px;
+  width: 100vw;
   min-height: 100vh;
+  padding: 16px 24px;
   background: linear-gradient(135deg, #020810 0%, #0a1628 40%, #0d1f35 70%, #091420 100%);
   position: relative;
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: auto;
   font-family: 'Orbitron', 'Segoe UI', monospace;
+  box-sizing: border-box;
 }
 
 /* Ambient background glow */
-.flappy-jet-container::before {
+.flappy-jet-layout::before {
   content: '';
   position: absolute;
   top: -50%;
@@ -23,9 +29,9 @@
   width: 200%;
   height: 200%;
   background:
-    radial-gradient(ellipse at 30% 20%, rgba(60, 120, 200, 0.06) 0%, transparent 50%),
-    radial-gradient(ellipse at 70% 80%, rgba(100, 50, 160, 0.05) 0%, transparent 50%),
-    radial-gradient(ellipse at 50% 50%, rgba(40, 80, 140, 0.03) 0%, transparent 70%);
+    radial-gradient(ellipse at 30% 20%, rgba(60, 120, 200, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 70% 80%, rgba(100, 50, 160, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(40, 80, 140, 0.04) 0%, transparent 70%);
   animation: ambientDrift 20s ease-in-out infinite alternate;
   pointer-events: none;
 }
@@ -33,6 +39,29 @@
 @keyframes ambientDrift {
   0% { transform: translate(0, 0) rotate(0deg); }
   100% { transform: translate(-3%, 2%) rotate(2deg); }
+}
+
+/* Left side: Game container */
+.flappy-jet-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+}
+
+/* Right side: Motion camera sidebar */
+.flappy-jet-motion-sidebar {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  max-height: 94vh;
 }
 
 /* Canvas styling */
@@ -44,8 +73,10 @@
     0 20px 60px rgba(0, 0, 0, 0.5),
     inset 0 0 1px rgba(100, 200, 255, 0.2);
   cursor: pointer;
-  max-width: 100vw;
-  max-height: 85vh;
+  height: min(84vh, 720px);
+  width: auto;
+  aspect-ratio: 480 / 720;
+  max-width: 90vw;
   border: 1px solid rgba(100, 200, 255, 0.15);
   transition: box-shadow 0.3s ease;
   position: relative;
@@ -68,12 +99,12 @@
     inset 0 0 2px rgba(100, 200, 255, 0.4);
 }
 
-/* HUD Info panel */
+/* HUD Info panel (under canvas) */
 .flappy-jet-info {
   position: relative;
   z-index: 2;
-  margin-top: 16px;
-  min-height: 48px;
+  margin-top: 12px;
+  min-height: 44px;
 }
 
 .flappy-jet-score-hud {
@@ -84,7 +115,7 @@
   background: rgba(10, 20, 40, 0.7);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  padding: 8px 28px;
+  padding: 6px 24px;
   border-radius: 10px;
   border: 1px solid rgba(100, 200, 255, 0.15);
   box-shadow:
@@ -113,28 +144,11 @@
 }
 
 .hud-value {
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 800;
   color: rgba(200, 230, 255, 0.95);
   text-shadow: 0 0 10px rgba(100, 200, 255, 0.4);
   letter-spacing: 2px;
-}
-
-/* Responsive adjustments */
-@media (max-width: 520px) {
-  .flappy-jet-canvas {
-    border-radius: 0;
-    border: none;
-    max-height: 90vh;
-  }
-
-  .flappy-jet-container {
-    padding: 0;
-  }
-
-  .flappy-jet-info {
-    margin-top: 8px;
-  }
 }
 
 /* Scanline effect overlay (subtle) */

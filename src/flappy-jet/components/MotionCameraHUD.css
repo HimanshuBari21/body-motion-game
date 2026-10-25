@@ -1,7 +1,8 @@
 /* ── Motion Camera HUD Panel Styles ────────────────────────── */
 
 .motion-hud-panel {
-  width: 320px;
+  width: 330px;
+  max-height: min(88vh, 760px);
   background: rgba(8, 16, 32, 0.85);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
@@ -18,8 +19,23 @@
   transition: all 0.3s ease;
   font-family: 'Orbitron', 'Segoe UI', monospace;
   position: relative;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
   box-sizing: border-box;
+}
+
+.motion-hud-panel::-webkit-scrollbar {
+  width: 4px;
+}
+
+.motion-hud-panel::-webkit-scrollbar-track {
+  background: rgba(10, 20, 35, 0.5);
+  border-radius: 2px;
+}
+
+.motion-hud-panel::-webkit-scrollbar-thumb {
+  background: rgba(56, 189, 248, 0.3);
+  border-radius: 2px;
 }
 
 .motion-hud-panel.thrusting {
